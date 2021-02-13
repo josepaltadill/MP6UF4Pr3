@@ -121,14 +121,8 @@ public class Model {
 
     public void conexion() {
         try {
-            //        view.getFormulaBean1().setDades("dadeddds.properties");
-            bean.setDades("dadeddds.properties");
-        } catch (PropertyVetoException ex) {
-            JOptionPane.showMessageDialog(null, "Primer acces en un nom de fitxer erroni");
-        }
-        try {
             bean.setDades("dades.properties");
-            JOptionPane.showMessageDialog(null, "Segon acces en un nom de fitxer correcte");
+            JOptionPane.showMessageDialog(null, "Acces en un nom de fitxer correcte");
         } catch (PropertyVetoException ex) {
             JOptionPane.showMessageDialog(null, "Hi ha alguna dada incorrecta. Torna a accedir a l'aplicació");
             System.exit(0);
