@@ -12,8 +12,6 @@ import java.io.Serializable;
 import java.util.Properties;
 import java.sql.*;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -34,7 +32,6 @@ public class FormulaBean implements Serializable, VetoableChangeListener {
     
     // Propietats simples
     private Connection con = null;
-    private Statement stt = null;
     private ResultSet resultat;
     Properties datos;
     
