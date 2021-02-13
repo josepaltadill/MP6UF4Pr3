@@ -23,17 +23,29 @@ public class FormulaBeanBeanInfo extends SimpleBeanInfo {
 
 
     // Property identifiers//GEN-FIRST:Properties
-    private static final int PROPERTY_dades = 0;
-    private static final int PROPERTY_sampleProperty = 1;
+    private static final int PROPERTY_comprobarBd = 0;
+    private static final int PROPERTY_con = 1;
+    private static final int PROPERTY_consulta = 2;
+    private static final int PROPERTY_dades = 3;
+    private static final int PROPERTY_insert = 4;
+    private static final int PROPERTY_resultat = 5;
+    private static final int PROPERTY_sampleProperty = 6;
+    private static final int PROPERTY_tancar = 7;
 
     // Property array 
     /*lazy PropertyDescriptor*/
     private static PropertyDescriptor[] getPdescriptor(){
-        PropertyDescriptor[] properties = new PropertyDescriptor[2];
+        PropertyDescriptor[] properties = new PropertyDescriptor[8];
     
         try {
+            properties[PROPERTY_comprobarBd] = new PropertyDescriptor ( "comprobarBd", formulabean.FormulaBean.class, "getComprobarBd", "setComprobarBd" ); // NOI18N
+            properties[PROPERTY_con] = new PropertyDescriptor ( "con", formulabean.FormulaBean.class, "getCon", null ); // NOI18N
+            properties[PROPERTY_consulta] = new PropertyDescriptor ( "consulta", formulabean.FormulaBean.class, "getConsulta", "setConsulta" ); // NOI18N
             properties[PROPERTY_dades] = new PropertyDescriptor ( "dades", formulabean.FormulaBean.class, "getDades", "setDades" ); // NOI18N
+            properties[PROPERTY_insert] = new PropertyDescriptor ( "insert", formulabean.FormulaBean.class, "getInsert", "setInsert" ); // NOI18N
+            properties[PROPERTY_resultat] = new PropertyDescriptor ( "resultat", formulabean.FormulaBean.class, "getResultat", null ); // NOI18N
             properties[PROPERTY_sampleProperty] = new PropertyDescriptor ( "sampleProperty", formulabean.FormulaBean.class, "getSampleProperty", "setSampleProperty" ); // NOI18N
+            properties[PROPERTY_tancar] = new PropertyDescriptor ( "tancar", formulabean.FormulaBean.class, "getTancar", "setTancar" ); // NOI18N
         }
         catch(IntrospectionException e) {
             e.printStackTrace();
@@ -63,16 +75,19 @@ public class FormulaBeanBeanInfo extends SimpleBeanInfo {
         return eventSets;     }//GEN-LAST:Events
 
     // Method identifiers//GEN-FIRST:Methods
-    private static final int METHOD_vetoableChange0 = 0;
+    private static final int METHOD_propertyChange0 = 0;
+    private static final int METHOD_vetoableChange1 = 1;
 
     // Method array 
     /*lazy MethodDescriptor*/
     private static MethodDescriptor[] getMdescriptor(){
-        MethodDescriptor[] methods = new MethodDescriptor[1];
+        MethodDescriptor[] methods = new MethodDescriptor[2];
     
         try {
-            methods[METHOD_vetoableChange0] = new MethodDescriptor(formulabean.FormulaBean.class.getMethod("vetoableChange", new Class[] {java.beans.PropertyChangeEvent.class})); // NOI18N
-            methods[METHOD_vetoableChange0].setDisplayName ( "" );
+            methods[METHOD_propertyChange0] = new MethodDescriptor(formulabean.FormulaBean.class.getMethod("propertyChange", new Class[] {java.beans.PropertyChangeEvent.class})); // NOI18N
+            methods[METHOD_propertyChange0].setDisplayName ( "" );
+            methods[METHOD_vetoableChange1] = new MethodDescriptor(formulabean.FormulaBean.class.getMethod("vetoableChange", new Class[] {java.beans.PropertyChangeEvent.class})); // NOI18N
+            methods[METHOD_vetoableChange1].setDisplayName ( "" );
         }
         catch( Exception e) {}//GEN-HEADEREND:Methods
         // Here you can add code for customizing the methods array.

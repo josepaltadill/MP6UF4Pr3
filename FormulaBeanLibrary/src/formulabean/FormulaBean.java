@@ -17,7 +17,7 @@ import java.sql.Statement;
  *
  * @author alumne
  */
-public class FormulaBean implements Serializable, VetoableChangeListener {
+public class FormulaBean implements Serializable, VetoableChangeListener, PropertyChangeListener {
     
     public static final String PROP_SAMPLE_PROPERTY = "sampleProperty";
     public static final String PROP_DADES = "dades";
@@ -27,7 +27,6 @@ public class FormulaBean implements Serializable, VetoableChangeListener {
     public static final String PROP_COMPROBARBD = "comprobarBd";
     
     private String sampleProperty;
-    
     private PropertyChangeSupport propertySupport;
     
     // Propietats simples
@@ -35,12 +34,74 @@ public class FormulaBean implements Serializable, VetoableChangeListener {
     private ResultSet resultat;
     Properties datos;
     
+    // Propietats lligades
+    private String tancar;
+    
     // Propietats restringides
     private String dades;    
     private String consulta;   
-    private String insert;    
-    private String tancar;    
+    private String insert;        
     private String comprobarBd;
+    
+    // Constructor
+    public FormulaBean() {
+        propertySupport = new PropertyChangeSupport(this);
+        this.addVetoableChangeListener(this);
+    }
+    
+    // Getter propietats simples
+    public Connection getCon() {
+        return con;
+    }
+    
+    public ResultSet getResultat() {
+        return resultat;
+    }
+    
+    // Getters i setters propietats lligades
+    public String getTancar() {
+        return tancar;
+    }
+
+    public void setTancar(String tancar) {
+        String oldTancar = this.tancar;
+        this.tancar = tancar;
+        propertySupport.firePropertyChange(PROP_TANCAR, oldTancar, tancar);
+    }
+    
+    // Getters i setters propietats restringides
+    public String getDades() {
+        return dades;
+    }
+
+    public void setDades(String dades) throws PropertyVetoException {
+        String oldDades = this.dades;
+        vetoableChangeSupport.fireVetoableChange(PROP_DADES, oldDades, dades);
+        this.dades = dades;
+        propertySupport.firePropertyChange(PROP_DADES, oldDades, dades);
+    }
+    
+     public String getConsulta() {
+        return consulta;
+    }
+
+    public void setConsulta(String consulta) throws PropertyVetoException {
+        String oldConsulta = this.consulta;
+        vetoableChangeSupport.fireVetoableChange(PROP_CONSULTA, oldConsulta, consulta);
+        this.consulta = consulta;
+        propertySupport.firePropertyChange(PROP_CONSULTA, oldConsulta, consulta);
+    }
+    
+    public String getInsert() {
+        return insert;
+    }
+
+    public void setInsert(String insert) throws PropertyVetoException {
+        String oldInsert = this.insert;
+        vetoableChangeSupport.fireVetoableChange(PROP_INSERT, oldInsert, insert);
+        this.insert = insert;
+        propertySupport.firePropertyChange(PROP_INSERT, oldInsert, insert);
+    }
 
     public String getComprobarBd() {
         return comprobarBd;
@@ -53,58 +114,6 @@ public class FormulaBean implements Serializable, VetoableChangeListener {
         propertySupport.firePropertyChange(PROP_COMPROBARBD, oldComprobarBd, comprobarBd);
     }
 
-
-    public String getTancar() {
-        return tancar;
-    }
-
-    public void setTancar(String tancar) throws PropertyVetoException {
-        String oldTancar = this.tancar;
-        vetoableChangeSupport.fireVetoableChange(PROP_TANCAR, oldTancar, tancar);
-        this.tancar = tancar;
-        propertySupport.firePropertyChange(PROP_TANCAR, oldTancar, tancar);
-    }
-
-
-    public String getInsert() {
-        return insert;
-    }
-
-    public void setInsert(String insert) throws PropertyVetoException {
-        String oldInsert = this.insert;
-        vetoableChangeSupport.fireVetoableChange(PROP_INSERT, oldInsert, insert);
-        this.insert = insert;
-        propertySupport.firePropertyChange(PROP_INSERT, oldInsert, insert);
-    }
-
-
-    public String getConsulta() {
-        return consulta;
-    }
-
-    public void setConsulta(String consulta) throws PropertyVetoException {
-        String oldConsulta = this.consulta;
-        vetoableChangeSupport.fireVetoableChange(PROP_CONSULTA, oldConsulta, consulta);
-        this.consulta = consulta;
-        propertySupport.firePropertyChange(PROP_CONSULTA, oldConsulta, consulta);
-    }
-
-
-    public String getDades() {
-        return dades;
-    }
-
-    public void setDades(String dades) throws PropertyVetoException {
-        String oldDades = this.dades;
-        vetoableChangeSupport.fireVetoableChange(PROP_DADES, oldDades, dades);
-        this.dades = dades;
-        propertySupport.firePropertyChange(PROP_DADES, oldDades, dades);
-    }
-
-    public Connection getCon() {
-        return con;
-    }
-    
     private transient final VetoableChangeSupport vetoableChangeSupport = new VetoableChangeSupport(this);
 
     public void addVetoableChangeListener(VetoableChangeListener listener) {
@@ -113,16 +122,6 @@ public class FormulaBean implements Serializable, VetoableChangeListener {
 
     public void removeVetoableChangeListener(VetoableChangeListener listener) {
         vetoableChangeSupport.removeVetoableChangeListener(listener);
-    }
-
-    
-    public FormulaBean() {
-        propertySupport = new PropertyChangeSupport(this);
-        this.addVetoableChangeListener(this);
-    }
-
-    public ResultSet getResultat() {
-        return resultat;
     }
     
     public String getSampleProperty() {
@@ -211,18 +210,27 @@ public class FormulaBean implements Serializable, VetoableChangeListener {
                     }
                 }
                 break;
-            case FormulaBean.PROP_TANCAR:
-            {
-                try {
-                    con.close();
-                } catch (SQLException ex) {
-                    throw new PropertyVetoException("Error al tancar", evt);
-                }
-            }
-
             default:
                 break;
         }
     }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        switch (evt.getPropertyName()) {
+            case FormulaBean.PROP_TANCAR:
+                if ((boolean) evt.getNewValue() && con != null) {
+                    try {
+                        con.close();
+                    } catch (SQLException e) {
+                        
+                    }
+                    
+                }
+                break;
+        }
+    }
+    
+    
     
 }
