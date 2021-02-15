@@ -17,7 +17,7 @@ import java.sql.Statement;
  *
  * @author alumne
  */
-public class FormulaBean implements Serializable, VetoableChangeListener, PropertyChangeListener {
+public class FormulaBean implements Serializable, VetoableChangeListener {
     
     public static final String PROP_SAMPLE_PROPERTY = "sampleProperty";
     public static final String PROP_DADES = "dades";
@@ -34,13 +34,11 @@ public class FormulaBean implements Serializable, VetoableChangeListener, Proper
     private ResultSet resultat;
     Properties datos;
     
-    // Propietats lligades
-    private String tancar;
-    
     // Propietats restringides
     private String dades;    
     private String consulta;   
-    private String insert;        
+    private String insert;   
+    private String tancar;
     private String comprobarBd;
     
     // Constructor
@@ -58,18 +56,18 @@ public class FormulaBean implements Serializable, VetoableChangeListener, Proper
         return resultat;
     }
     
-    // Getters i setters propietats lligades
+    // Getters i setters propietats restringides
     public String getTancar() {
         return tancar;
     }
 
-    public void setTancar(String tancar) {
+    public void setTancar(String tancar) throws PropertyVetoException {
         String oldTancar = this.tancar;
+        vetoableChangeSupport.fireVetoableChange(PROP_TANCAR, oldTancar, tancar);
         this.tancar = tancar;
         propertySupport.firePropertyChange(PROP_TANCAR, oldTancar, tancar);
     }
     
-    // Getters i setters propietats restringides
     public String getDades() {
         return dades;
     }
@@ -210,26 +208,34 @@ public class FormulaBean implements Serializable, VetoableChangeListener, Proper
                     }
                 }
                 break;
+            case FormulaBean.PROP_TANCAR:
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    throw new PropertyVetoException("Error al tancar", evt);
+                }
+                    
+                break;
             default:
                 break;
         }
     }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-        switch (evt.getPropertyName()) {
-            case FormulaBean.PROP_TANCAR:
-                if ((boolean) evt.getNewValue() && con != null) {
-                    try {
-                        con.close();
-                    } catch (SQLException e) {
-                        
-                    }
-                    
-                }
-                break;
-        }
-    }
+//    @Override
+//    public void propertyChange(PropertyChangeEvent evt) {
+//        switch (evt.getPropertyName()) {
+//            case FormulaBean.PROP_TANCAR:
+//                if ((boolean) evt.getNewValue() && con != null) {
+//                    try {
+//                        con.close();
+//                    } catch (SQLException e) {
+//                        
+//                    }
+//                    
+//                }
+//                break;
+//        }
+//    }
     
     
     

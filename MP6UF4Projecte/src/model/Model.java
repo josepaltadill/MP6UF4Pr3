@@ -391,14 +391,14 @@ public class Model {
     public void tancarConexio() {
         try {
             bean.setTancar("Tanca");
+        } catch (PropertyVetoException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
 //        try {
 //            con.close();
 //        } catch (SQLException ex) {
 //            System.out.println(ex.toString());
 //        }
-        } catch (PropertyVetoException ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage());
-        }
     }
    
 }
