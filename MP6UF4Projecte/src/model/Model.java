@@ -109,7 +109,7 @@ public class Model {
 
             }
         } catch (PropertyVetoException ex) {
-            JOptionPane.showMessageDialog(null, "Hi ha alguna dada incorrecta. Torna a accedir a l'aplicació");
+            JOptionPane.showMessageDialog(null, ex.getMessage());
             System.exit(0);
         }
     }

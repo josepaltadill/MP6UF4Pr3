@@ -147,7 +147,6 @@ public class FormulaBean implements Serializable, VetoableChangeListener {
                 datos = new Properties();
                 try {
                     datos.load(new FileInputStream((String) evt.getNewValue()));
-                    System.out.println("Nom del properties correcte");
                     String url1 = (String)datos.get("url1");
                     String url2 = (String)datos.get("url2");
                     String user = (String)datos.get("user");
@@ -164,7 +163,6 @@ public class FormulaBean implements Serializable, VetoableChangeListener {
                 datos = new Properties();
                 try {
                     datos.load(new FileInputStream((String) evt.getNewValue()));
-                    System.out.println("Nom del properties correcte");
                     String url1 = (String)datos.get("url1");
                     String url2 = (String)datos.get("url2");
                     String user = (String)datos.get("user");
@@ -180,14 +178,17 @@ public class FormulaBean implements Serializable, VetoableChangeListener {
             case FormulaBean.PROP_CONSULTA:
                 try {
                     String SQL = evt.getNewValue().toString();
-                    System.out.println(con);
-                    System.out.println(SQL);
+//                    System.out.println(SQL);
                     Statement st;
                     st = con.createStatement();
                     ResultSet rs = st.executeQuery(SQL);
                     resultat = rs;
                 } catch (SQLException ex) {
-                    throw new PropertyVetoException("Error", evt);
+                    if (ex.getErrorCode() == 1064) {
+                        throw new PropertyVetoException("Hi ha un error d'escriptura en la consulta SQL", evt);
+                    } else {
+                        throw new PropertyVetoException(ex.toString(), evt);
+                    }
                 }
                 break;
             case FormulaBean.PROP_INSERT:
@@ -220,23 +221,5 @@ public class FormulaBean implements Serializable, VetoableChangeListener {
                 break;
         }
     }
-
-//    @Override
-//    public void propertyChange(PropertyChangeEvent evt) {
-//        switch (evt.getPropertyName()) {
-//            case FormulaBean.PROP_TANCAR:
-//                if ((boolean) evt.getNewValue() && con != null) {
-//                    try {
-//                        con.close();
-//                    } catch (SQLException e) {
-//                        
-//                    }
-//                    
-//                }
-//                break;
-//        }
-//    }
-    
-    
     
 }

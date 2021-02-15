@@ -6,19 +6,12 @@
 package controlador;
 
 import execpcions.Excepcio;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.beans.PropertyVetoException;
 import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 import model.EquipF1;
@@ -73,13 +66,9 @@ public class Controller {
     }
     
     private void carregarTaula() {
-//        model.mosrtrarDades(view.getFormulaBean1().getCon());
         model.mosrtrarDades();
-//        System.out.println("resultat val - " + model.getResultat());
-//        tc = Utils.<EquipF1>loadTable(model.getEquips(), view.getjTable1(), EquipF1.class, true, true);
         tc = Utils.<EquipF1>loadTable(model.getEquips(), view.getjTable1(), EquipF1.class, true, model.getResultat());
         tp = Utils.<Pilot>loadTable(model.getPilots(), view.getjTable2(), Pilot.class, true, model.getResultatPilots());
-//        tp = Utils.<Pilot>loadTable(model.getPilots(), view.getjTable2(), Pilot.class, true, true);
         omplirCombobox();
     }
     
@@ -105,14 +94,8 @@ public class Controller {
 
     private void controlador() {  
         model.comprobarBd();
-        //            view.getFormulaBean1().setDades(JOptionPane.showInputDialog("Introdueix el nom del fitxer"));
-//            view.getFormulaBean1().setDades("dadeddds.properties");
         model.conexion();
-        //            view.getFormulaBean1().setDades(JOptionPane.showInputDialog("Introdueix el nom del fitxer"));
-//            view.getFormulaBean1().setDades("dades.properties");
-//        model.conexion();
-//        model.conexion();
-//        model.setCon(view.getFormulaBean1().getCon());
+        
         itemsEnBlanc();
         carregarTaula();
         view.getjComboBoxOrdenar().removeAllItems();
@@ -157,8 +140,7 @@ public class Controller {
                 if(filaSel!=-1) {  
                     EquipF1 obj = obtenirEquipSeleccionat();
                     String nom_antic = obj.get1_nom();
-   
-                    // borrem l'equip seleccionat passant-li per parametre
+
                     model.eliminarEquipBd(obj, nom_antic);
                     // Recarreguem la taula despres d'esborrar l'objecte
                     carregarTaula();
@@ -199,54 +181,6 @@ public class Controller {
 
         });
         
-        // Modificar equips al fer intro
-//        view.getjTable1().addKeyListener(new KeyListener() {
-//            @Override
-//            public void keyTyped(KeyEvent ke) {}
-//            @Override
-//            public void keyPressed(KeyEvent ke) {}
-//            @Override
-//            public void keyReleased(KeyEvent ke) {
-//                if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
-//                    if(filaSel!=-1) {
-//                        EquipF1 obj = obtenirEquipSeleccionat();
-//                        String nom_antic = obj.get1_nom();
-//                        String camp = view.getjTable1().getValueAt(filaSel, 3).toString().trim();
-//                        Boolean campio; 
-//                        if (!camp.equalsIgnoreCase("true") && !camp.equalsIgnoreCase("false")) {
-//                            JOptionPane.showMessageDialog(view, "Valor campio no vàlid. Introdueix true per a si o false per a no.");
-//                            carregarTaula();
-//                            view.getjTable1().addRowSelectionInterval(filaSel, filaSel);
-//                        } else {
-//                            if (camp.equalsIgnoreCase("true")) {
-//                                campio = true;
-//                            } else campio = false;
-//                            try {
-//                                model.modificarEquipsBd(
-//                                    obj,
-//                                    nom_antic,
-//                                    view.getjTable1().getValueAt(filaSel, 0).toString().trim(),
-//                                    Integer.parseInt(view.getjTable1().getValueAt(filaSel, 1).toString().trim()),
-//                                    Double.parseDouble(view.getjTable1().getValueAt(filaSel, 2).toString()),
-//                                    campio
-//                                );
-//                                carregarTaula();
-//                                itemsEnBlanc();
-//                            } catch (Excepcio er) {
-//                                JOptionPane.showMessageDialog(view, er.retornaMissatge());
-//
-//                            } catch (NumberFormatException ex) {
-//                                JOptionPane.showMessageDialog(view, "Hi ha alguna dada incorrecta. Revisa-ho");
-//                            }
-//                            filaSel = -1;
-//                            filaSelPilots = -1;
-//                        }
-//                        
-//                    }else JOptionPane.showMessageDialog(view, "Has de seleccionar una fila per modificar-la");
-//                }
-//            }
-//        });
-
         // Boto insertar pilots bd
         view.getjButtonInsertPilot().addActionListener(e -> {
             EquipF1 obj = (EquipF1)view.getjComboBox1().getSelectedItem();
@@ -343,48 +277,6 @@ public class Controller {
             }else JOptionPane.showMessageDialog(view, "Has de seleccionar una fila per modificar-la");
 
         });
-        
-        // Modificar pilots al fer intro
-//        view.getjTable2().addKeyListener(new KeyListener() {
-//            @Override
-//            public void keyTyped(KeyEvent ke) {}
-//
-//            @Override
-//            public void keyPressed(KeyEvent ke) {}
-//
-//            @Override
-//            public void keyReleased(KeyEvent ke) {
-//                if (ke.getKeyCode() == KeyEvent.VK_ENTER) {
-//                    if(filaSelPilots!=-1) {
-//                        Pilot obj = obtenirPilotSeleccionat();
-//                        int dorsal_antic = obj.get1_dorsal();
-//                        EquipF1 obj3 = (EquipF1)view.getjComboBox1().getSelectedItem();
-//                        String nomEquip = obj3.get1_nom();
-//                        try {
-//                            model.modificarPilotBd(
-//                                    obj,
-//                                    dorsal_antic,
-//                                    Integer.parseInt(view.getjTable2().getValueAt(filaSelPilots, 0).toString().trim()),
-//                                    view.getjTable2().getValueAt(filaSelPilots, 1).toString().trim(),
-//                                    view.getjTable2().getValueAt(filaSelPilots, 2).toString().trim(),
-//                                    nomEquip
-//                            );
-//                            carregarTaula();
-//                            itemsEnBlanc();
-//                            filaSel = -1;
-//                        } catch (Excepcio ex) {
-//                            JOptionPane.showMessageDialog(view, ex.retornaMissatge());
-//
-//                        } catch (java.lang.ClassFormatError er) {
-//                            JOptionPane.showMessageDialog(view, "Email no vàlid");
-//                        } catch (NumberFormatException ex) {
-//                            JOptionPane.showMessageDialog(view, "Hi ha alguna dada incorrecta. Revisa-ho");
-//                        }
-//                    }else JOptionPane.showMessageDialog(view, "Has de seleccionar una fila per modificar-la");
-//                }
-//            }
-//            
-//        });
         
         // Boto tornar a mostrar tots els equips
         view.getjButtonMostrarTotsEquips().addActionListener(e -> {
