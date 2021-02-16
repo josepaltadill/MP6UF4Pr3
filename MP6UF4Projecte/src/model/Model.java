@@ -117,7 +117,6 @@ public class Model {
     public void conexion() {
         try {
             bean.setDades("dades.properties");
-            JOptionPane.showMessageDialog(null, "Acces en un nom de fitxer correcte");
         } catch (PropertyVetoException ex) {
             JOptionPane.showMessageDialog(null, "Hi ha alguna dada incorrecta. Torna a accedir a l'aplicació");
             System.exit(0);

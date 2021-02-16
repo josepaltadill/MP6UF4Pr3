@@ -153,7 +153,7 @@ public class FormulaBean implements Serializable, VetoableChangeListener {
                     String password = (String)datos.get("password");
                     
                     con = DriverManager.getConnection(url2, user, password);
-                    System.out.println("Conectat en exit");
+//                    System.out.println("Conectat en exit");
                     
                 } catch (IOException | SQLException ex) {
                     throw new PropertyVetoException("Error", evt);
