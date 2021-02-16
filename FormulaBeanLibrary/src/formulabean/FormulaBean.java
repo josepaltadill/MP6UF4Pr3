@@ -194,8 +194,7 @@ public class FormulaBean implements Serializable, VetoableChangeListener {
             case FormulaBean.PROP_INSERT:
                 try {
                     String SQL = evt.getNewValue().toString();
-                    System.out.println(con);
-                    System.out.println(SQL);
+//                    System.out.println(SQL);
                     Statement st;
                     st = con.createStatement();
                     st.executeUpdate(SQL);
@@ -214,8 +213,7 @@ public class FormulaBean implements Serializable, VetoableChangeListener {
                     con.close();
                 } catch (SQLException e) {
                     throw new PropertyVetoException("Error al tancar", evt);
-                }
-                    
+                }    
                 break;
             default:
                 break;

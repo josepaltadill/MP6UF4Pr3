@@ -138,25 +138,11 @@ public class Model {
         }
         
         try {
-            bean.setInsert("insert into equip (nom, numMecanics, pressupost, campioMundial) values ('" + nom + "'," + numMecanics + ",'" + pressupost + "'," + campioMundial + ")");
+            bean.setInsert("insert into equip (nom, numMecanics, pressupost, campioMundial) values "
+                    + "('" + nom + "'," + numMecanics + ",'" + pressupost + "'," + campioMundial + ")");
         } catch (PropertyVetoException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }   
-            
-//        try {
-//            String SQL = "insert into equip (nom, numMecanics, pressupost, campioMundial) values (?,?,?,?)";
-//            PreparedStatement pst = con.prepareStatement(SQL);
-//            
-//            pst.setString(1, nom);
-//            pst.setInt(2, numMecanics);
-//            pst.setDouble(3, pressupost);
-//            pst.setBoolean(4, campioMundial);
-//            
-//            pst.execute();
-//        } catch (SQLException ex) {
-////            System.out.println("El nom de l'equip està repetit, trian un altre");
-//            throw new Excepcio(2);
-//        }
     }
     
     public void insertarPilotBd(int dorsal, String nom, String email, String nom_equipf1, EquipF1 equip) throws Excepcio {
@@ -171,16 +157,8 @@ public class Model {
         Matcher matcher = pattern.matcher(email);
         if(matcher.matches()) {
             try {
-                bean.setInsert("insert into pilot (dorsal, nom, email, nom_equipf1) values (" + dorsal + ",'" + nom + "','" + email + "','" + nom_equipf1 + "')");
-//                String SQL = "insert into pilot (dorsal, nom, email, nom_equipf1) values (?,?,?,?)";
-//                PreparedStatement pst = con.prepareStatement(SQL);
-//                
-//                pst.setInt(1, dorsal);
-//                pst.setString(2, nom);
-//                pst.setString(3, email);
-//                pst.setString(4, nom_equipf1);
-//                
-//                pst.execute();
+                bean.setInsert("insert into pilot (dorsal, nom, email, nom_equipf1) values "
+                        + "(" + dorsal + ",'" + nom + "','" + email + "','" + nom_equipf1 + "')");
             } catch (PropertyVetoException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
@@ -202,18 +180,6 @@ public class Model {
         } catch (PropertyVetoException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
-//        try {
-//            String SQL = "delete from equip where nom = ?";
-//            PreparedStatement pst = con.prepareStatement(SQL);
-//            
-//            pst.setString(1, nom);
-//            pst.execute();
-//            
-//            this.<EquipF1>borrar(equip, equips);
-//            
-//        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(null, "Error a l'eliminar registre" + ex.getMessage());
-//        }
     }
     
     public void eliminarPilotBd(Pilot pilot, int dorsal) {
@@ -223,49 +189,25 @@ public class Model {
         } catch (PropertyVetoException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
-//        try {
-//            String SQL = "delete from pilot where dorsal = ?";
-//            PreparedStatement pst = con.prepareStatement(SQL);
-//            
-//            pst.setInt(1, dorsal);
-//            pst.execute();
-//            
-//            this.<Pilot>borrar(pilot, pilots);
-//        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(null, "Error a l'eliminar registre" + ex.getMessage());
-//        }
     }
     
     // Metodes modificar bd
-    public void modificarEquipsBd(EquipF1 equip, String nom_antic, String nom, int numMecanics, double pressupost, boolean campioMundial) throws Excepcio {
+    public void modificarEquipsBd(EquipF1 equip, String nom_antic, String nom, int numMecanics, double pressupost, 
+            boolean campioMundial) throws Excepcio {
         if (nom.trim().isEmpty()) {
             throw new Excepcio(1);
         }
         try {
-            bean.setInsert("update equip set nom = '" + nom + "', numMecanics = " + numMecanics + ", pressupost = '" + pressupost + "', campioMundial = " + campioMundial + " where nom = '"+ nom_antic + "'");
+            bean.setInsert("update equip set nom = '" + nom + "', numMecanics = " + numMecanics + ", pressupost = '" + 
+                    pressupost + "', campioMundial = " + campioMundial + " where nom = '"+ nom_antic + "'");
             this.<EquipF1>borrar(equip, equips);
         } catch (PropertyVetoException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
-//        try {
-//            String SQL = "update equip set nom=?, numMecanics=?, pressupost=?, campioMundial=? where nom=?";
-//            PreparedStatement pst = con.prepareStatement(SQL);
-//            
-//            pst.setString(1, nom);
-//            pst.setInt(2, numMecanics);
-//            pst.setDouble(3, pressupost);
-//            pst.setBoolean(4, campioMundial);
-//            pst.setString(5, nom_antic);
-//            
-//            pst.execute();
-//            
-//            this.<EquipF1>borrar(equip, equips);
-//        } catch (SQLException ex) {
-//            throw new Excepcio(2);
-//        }
     }
     
-    public void modificarPilotBd(Pilot pilot, int dorsal_antic, int dorsal, String nom, String email, String nom_equipf1) throws Excepcio {
+    public void modificarPilotBd(Pilot pilot, int dorsal_antic, int dorsal, String nom, String email, String nom_equipf1) 
+            throws Excepcio {
         this.<Pilot>borrar(pilot, pilots);
         if (nom.trim().isEmpty()) {
             throw new Excepcio(1);
@@ -278,24 +220,11 @@ public class Model {
         Matcher matcher = pattern.matcher(email);
         if(matcher.matches()) {
             try {
-                bean.setInsert("update pilot set dorsal = " + dorsal + ", nom = '" + nom + "', email = '" + email + "', nom_equipf1 = '" + nom_equipf1 + "' where dorsal = " + dorsal_antic);
+                bean.setInsert("update pilot set dorsal = " + dorsal + ", nom = '" + nom + "', email = '" + email 
+                        + "', nom_equipf1 = '" + nom_equipf1 + "' where dorsal = " + dorsal_antic);
             } catch (PropertyVetoException ex) {
                 JOptionPane.showMessageDialog(null, ex.getMessage());
             }
-//            try {
-//                String SQL = "update pilot set dorsal=?, nom=?, email=?, nom_equipf1=? where dorsal=?";
-//                PreparedStatement pst = con.prepareStatement(SQL);
-//
-//                pst.setInt(1, dorsal);
-//                pst.setString(2, nom);
-//                pst.setString(3, email);
-//                pst.setNString(4, nom_equipf1);
-//                pst.setInt(5, dorsal_antic);
-//
-//                pst.execute();
-//            } catch (SQLException ex) {
-//                throw new Excepcio(4);
-//            }
         } else {
             throw new Excepcio(3);
         }
@@ -330,57 +259,6 @@ public class Model {
                 Pilot a = new Pilot(dorsal, nom, email, nom_equipf1);
                 this.<Pilot>insertar(a, pilots);
             }
-//        try {
-//            con.setAutoCommit(false);
-//            try {
-//                String SQL = "select * from equip";
-//                Statement st = con.createStatement();
-//                ResultSet rs = st.executeQuery(SQL);
-//                resultat = rs;
-//
-//                while (rs.next()) {
-//                    String nom = rs.getNString("nom");
-//                    int numMecanics = rs.getInt("numMecanics");
-//                    double pressupost = rs.getDouble("pressupost");
-//                    boolean campioMundial = rs.getBoolean("campioMundial");
-//                    EquipF1 e = new EquipF1(nom, numMecanics, pressupost, campioMundial);
-//                    this.<EquipF1>insertar(e, equips);
-//                }
-//            } catch (SQLException ex) {
-//                JOptionPane.showMessageDialog(null, "Error al mostrar -carregar- dades" + ex.getMessage());
-//            }
-//
-//            try {
-//                String SQLPilot = "select * from pilot";
-//                Statement st = con.createStatement();
-//                ResultSet rsEquip = st.executeQuery(SQLPilot);
-//                resultatPilots = rsEquip;
-//
-//                while (rsEquip.next()) {
-//                    int dorsal = rsEquip.getInt("dorsal");
-//                    String nom = rsEquip.getNString("nom");
-//                    String email = rsEquip.getNString("email");
-//                    String nom_equipf1 = rsEquip.getNString("nom_equipf1");
-//
-//                    Pilot a = new Pilot(dorsal, nom, email, nom_equipf1);
-//                    this.<Pilot>insertar(a, pilots);
-//                }
-//            } catch (SQLException ex) {
-//                JOptionPane.showMessageDialog(null, "Error al mostrar -carregar- dades" + ex.getMessage());
-//            }
-//        } catch (Exception e) {
-//            try {
-//                con.rollback();
-//            } catch (SQLException ex) {
-//                System.out.println(ex.toString());
-//            }
-//        } finally {
-//            try {
-//                con.setAutoCommit(true);
-//            } catch (SQLException ex) {
-//                System.out.println(ex.toString());
-//            }
-//        }
         } catch (PropertyVetoException ex) {
             JOptionPane.showMessageDialog(null, "Error en la consulta SQL");
         } catch (SQLException ex) {
@@ -394,11 +272,6 @@ public class Model {
         } catch (PropertyVetoException ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage());
         }
-//        try {
-//            con.close();
-//        } catch (SQLException ex) {
-//            System.out.println(ex.toString());
-//        }
     }
    
 }

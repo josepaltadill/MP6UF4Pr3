@@ -310,7 +310,7 @@ public class Controller {
                                 view.getjTable2().addRowSelectionInterval(i, i);
                             }
                         } catch (java.lang.NullPointerException ex) {
-                            System.out.println("L'equip seleccionat no te cap pilot");
+//                            System.out.println("L'equip seleccionat no te cap pilot");
                         }
                     
                     }
